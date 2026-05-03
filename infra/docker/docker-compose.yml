@@ -1,0 +1,54 @@
+version: "3.9"
+
+# NexusRAG infrastructure — Neo4j + ChromaDB only.
+# Ollama runs natively on Mac for Metal acceleration.
+# Redis replaced by diskcache (no container needed).
+
+services:
+
+  neo4j:
+    image: neo4j:5.19-community
+    container_name: nexus-neo4j
+    restart: unless-stopped
+    ports:
+      - "7474:7474"   # Browser UI
+      - "7687:7687"   # Bolt
+    environment:
+      NEO4J_AUTH: "neo4j/nexusrag123"
+      NEO4J_PLUGINS: '["apoc"]'
+      NEO4J_dbms_memory_heap_max__size: "512m"
+      NEO4J_dbms_memory_pagecache_size: "256m"
+    volumes:
+      - neo4j_data:/data
+      - neo4j_logs:/logs
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://localhost:7474 || exit 1"]
+      interval: 15s
+      timeout: 10s
+      retries: 5
+
+  chromadb:
+    image: chromadb/chroma:0.5.0
+    container_name: nexus-chroma
+    restart: unless-stopped
+    ports:
+      - "8001:8000"
+    environment:
+      CHROMA_SERVER_AUTH_PROVIDER: "none"
+      PERSIST_DIRECTORY: "/chroma/data"
+    volumes:
+      - chroma_data:/chroma/data
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://localhost:8000/api/v1/heartbeat || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  neo4j_data:
+  neo4j_logs:
+  chroma_data:
+
+networks:
+  default:
+    name: nexus-network

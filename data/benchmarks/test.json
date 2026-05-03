@@ -1,0 +1,402 @@
+[
+  {
+    "query": "What is retrieval-augmented generation?",
+    "ground_truth_answer": "RAG combines a retrieval system with a language model. The retrieval system fetches relevant documents, and the language model generates an answer conditioned on those documents.",
+    "ground_truth_context": ["chunk_rag_001", "chunk_rag_002"],
+    "all_relevant_chunks": ["chunk_rag_001", "chunk_rag_002", "chunk_rag_003"],
+    "difficulty": "easy",
+    "expected_tier": "TIER_1"
+  },
+  {
+    "query": "How does BM25 scoring work?",
+    "ground_truth_answer": "BM25 is a ranking function based on term frequency and inverse document frequency with length normalization. It scores documents higher when query terms appear frequently but penalizes very long documents.",
+    "ground_truth_context": ["chunk_bm25_001"],
+    "all_relevant_chunks": ["chunk_bm25_001", "chunk_bm25_002"],
+    "difficulty": "easy",
+    "expected_tier": "TIER_1"
+  },
+  {
+    "query": "What is the difference between dense and sparse retrieval?",
+    "ground_truth_answer": "Dense retrieval uses neural embeddings to encode queries and documents into vector space. Sparse retrieval uses term-based methods like TF-IDF or BM25. Dense retrieval captures semantic similarity while sparse retrieval excels at exact keyword matching.",
+    "ground_truth_context": ["chunk_retrieval_001", "chunk_retrieval_002"],
+    "all_relevant_chunks": ["chunk_retrieval_001", "chunk_retrieval_002", "chunk_retrieval_003"],
+    "difficulty": "medium",
+    "expected_tier": "TIER_1"
+  },
+  {
+    "query": "What is Reciprocal Rank Fusion and how does it combine search results?",
+    "ground_truth_answer": "RRF combines multiple ranked lists by computing 1/(k+rank) for each document in each list and summing the scores. The constant k prevents high scores for top-ranked documents from dominating. It is parameter-free and robust.",
+    "ground_truth_context": ["chunk_rrf_001"],
+    "all_relevant_chunks": ["chunk_rrf_001", "chunk_rrf_002"],
+    "difficulty": "medium",
+    "expected_tier": "TIER_1"
+  },
+  {
+    "query": "Explain how vector embeddings represent semantic meaning.",
+    "ground_truth_answer": "Vector embeddings map text into a high-dimensional continuous space where semantically similar texts are close together. Models like sentence-transformers learn these representations by training on large corpora.",
+    "ground_truth_context": ["chunk_embed_001"],
+    "all_relevant_chunks": ["chunk_embed_001", "chunk_embed_002"],
+    "difficulty": "easy",
+    "expected_tier": "TIER_1"
+  },
+  {
+    "query": "How does the critic agent detect hallucinations in generated answers?",
+    "ground_truth_answer": "The critic agent breaks the answer into atomic claims and verifies each claim against the retrieved context. Claims not supported by context are flagged as hallucinations. The agent produces a faithfulness score between 0 and 1.",
+    "ground_truth_context": ["chunk_critic_001", "chunk_critic_002"],
+    "all_relevant_chunks": ["chunk_critic_001", "chunk_critic_002"],
+    "difficulty": "medium",
+    "expected_tier": "TIER_2"
+  },
+  {
+    "query": "What are the RAM constraints for running the NexusRAG system on a Mac M2?",
+    "ground_truth_answer": "The system targets Mac M2 with 8GB total RAM. Approximately 4GB is available for RAG after VS Code and Chrome. A guardrail of 1.5GB free RAM is enforced. Only one LLM can be loaded at a time.",
+    "ground_truth_context": ["chunk_hw_001"],
+    "all_relevant_chunks": ["chunk_hw_001", "chunk_hw_002"],
+    "difficulty": "easy",
+    "expected_tier": "TIER_1"
+  },
+  {
+    "query": "How does the 3-tier adaptive routing system decide which tier to assign?",
+    "ground_truth_answer": "The router uses rule-based heuristics (query length, entity count, multi-hop indicators) combined with a gemma3:1b LLM complexity score. Scores 0-0.4 map to TIER_1, 0.4-0.7 to TIER_2, and 0.7-1.0 to TIER_3.",
+    "ground_truth_context": ["chunk_router_001", "chunk_router_002"],
+    "all_relevant_chunks": ["chunk_router_001", "chunk_router_002", "chunk_router_003"],
+    "difficulty": "medium",
+    "expected_tier": "TIER_2"
+  },
+  {
+    "query": "What is the role of the compliance agent in the pipeline?",
+    "ground_truth_answer": "The compliance agent checks both queries and answers for PII (email, phone, SSN), prompt injection patterns, and high-entropy suspicious content. It blocks violating requests and returns a safe fallback response.",
+    "ground_truth_context": ["chunk_compliance_001"],
+    "all_relevant_chunks": ["chunk_compliance_001", "chunk_compliance_002"],
+    "difficulty": "easy",
+    "expected_tier": "TIER_1"
+  },
+  {
+    "query": "How does Neo4j enable graph-based retrieval in TIER_3?",
+    "ground_truth_answer": "During ingestion, entities are extracted and stored as Neo4j nodes with MENTIONS relationships to chunk nodes. In TIER_3, entity tokens from the query are matched in the graph, and connected chunks are retrieved via multi-hop traversal before vector search.",
+    "ground_truth_context": ["chunk_neo4j_001", "chunk_neo4j_002"],
+    "all_relevant_chunks": ["chunk_neo4j_001", "chunk_neo4j_002", "chunk_neo4j_003"],
+    "difficulty": "hard",
+    "expected_tier": "TIER_3"
+  },
+  {
+    "query": "Which embedding models are used and what are their sizes?",
+    "ground_truth_answer": "The primary embedding model is all-minilm:latest at 45MB. The fallback is mxbai-embed-large:latest at 669MB. The primary model is used for speed while the fallback provides higher quality.",
+    "ground_truth_context": ["chunk_models_001"],
+    "all_relevant_chunks": ["chunk_models_001"],
+    "difficulty": "easy",
+    "expected_tier": "TIER_1"
+  },
+  {
+    "query": "What is context precision and how is it calculated?",
+    "ground_truth_answer": "Context precision is the fraction of retrieved chunks that are relevant to the query. It is calculated as relevant_retrieved divided by total_retrieved.",
+    "ground_truth_context": ["chunk_eval_001"],
+    "all_relevant_chunks": ["chunk_eval_001", "chunk_eval_002"],
+    "difficulty": "easy",
+    "expected_tier": "TIER_1"
+  },
+  {
+    "query": "How does the ingestion pipeline handle PDF documents?",
+    "ground_truth_answer": "PDFs are parsed using PyMuPDF which extracts text page by page with page number annotations. The parsed text is then chunked using the semantic chunker with header-aware splitting.",
+    "ground_truth_context": ["chunk_ingest_001"],
+    "all_relevant_chunks": ["chunk_ingest_001", "chunk_ingest_002"],
+    "difficulty": "easy",
+    "expected_tier": "TIER_1"
+  },
+  {
+    "query": "What is NDCG and how is it used in RAG evaluation?",
+    "ground_truth_answer": "Normalized Discounted Cumulative Gain measures retrieval quality by rewarding relevant documents ranked higher. DCG sums relevance scores divided by log2 of rank position, normalized by ideal DCG.",
+    "ground_truth_context": ["chunk_eval_003"],
+    "all_relevant_chunks": ["chunk_eval_003", "chunk_eval_004"],
+    "difficulty": "medium",
+    "expected_tier": "TIER_1"
+  },
+  {
+    "query": "How does the ModelManager prevent loading two LLMs simultaneously?",
+    "ground_truth_answer": "The ModelManager tracks loaded models in a dictionary. Before loading any LLM, it checks if another LLM is already resident and unloads it first. All load/unload operations are protected by an asyncio lock.",
+    "ground_truth_context": ["chunk_mm_001", "chunk_mm_002"],
+    "all_relevant_chunks": ["chunk_mm_001", "chunk_mm_002"],
+    "difficulty": "medium",
+    "expected_tier": "TIER_2"
+  },
+  {
+    "query": "What Prometheus metrics are exposed by NexusRAG?",
+    "ground_truth_answer": "NexusRAG exposes: nexus_rag_queries_total (counter by tier/status), nexus_rag_latency_seconds (histogram by tier), nexus_rag_faithfulness_score (histogram), nexus_rag_hallucination_rate (histogram), nexus_rag_cache_hit_rate (gauge), nexus_rag_ram_usage_mb (gauge).",
+    "ground_truth_context": ["chunk_metrics_001"],
+    "all_relevant_chunks": ["chunk_metrics_001"],
+    "difficulty": "medium",
+    "expected_tier": "TIER_1"
+  },
+  {
+    "query": "How does the semantic chunker handle heading boundaries?",
+    "ground_truth_answer": "The chunker detects markdown headings using regex and splits the document at H1/H2/H3 boundaries. Each section is independently chunked with the heading path prepended to each chunk for context.",
+    "ground_truth_context": ["chunk_chunker_001"],
+    "all_relevant_chunks": ["chunk_chunker_001", "chunk_chunker_002"],
+    "difficulty": "easy",
+    "expected_tier": "TIER_1"
+  },
+  {
+    "query": "What is FlashRank and how does it improve retrieval quality?",
+    "ground_truth_answer": "FlashRank is a lightweight cross-encoder reranker that scores query-document pairs for relevance. It reranks the top-15 retrieved chunks and selects the top-5, improving precision over pure vector similarity.",
+    "ground_truth_context": ["chunk_rerank_001"],
+    "all_relevant_chunks": ["chunk_rerank_001", "chunk_rerank_002"],
+    "difficulty": "medium",
+    "expected_tier": "TIER_1"
+  },
+  {
+    "query": "What happens when the critic agent fails a response?",
+    "ground_truth_answer": "When faithfulness score is below 0.7, the pipeline loops back to the retriever with stricter filters and regenerates the answer. This retry loop happens at most twice before accepting the best available answer.",
+    "ground_truth_context": ["chunk_critic_003"],
+    "all_relevant_chunks": ["chunk_critic_003", "chunk_critic_004"],
+    "difficulty": "medium",
+    "expected_tier": "TIER_2"
+  },
+  {
+    "query": "Compare TIER_1 and TIER_2 retrieval strategies.",
+    "ground_truth_answer": "TIER_1 uses single-pass hybrid search targeting under 500ms for 80% of queries. TIER_2 uses iterative retrieval with sub-question generation and up to 2 retrieval rounds targeting under 1.5 seconds for 15% of queries.",
+    "ground_truth_context": ["chunk_tier_001", "chunk_tier_002"],
+    "all_relevant_chunks": ["chunk_tier_001", "chunk_tier_002", "chunk_tier_003"],
+    "difficulty": "medium",
+    "expected_tier": "TIER_2"
+  },
+  {
+    "query": "What LLM is used for routing and why?",
+    "ground_truth_answer": "gemma3:1b is used for routing because it is fast at 815MB and suitable for simple classification tasks. It scores query complexity from 0 to 1 to blend with rule-based heuristics.",
+    "ground_truth_context": ["chunk_llm_001"],
+    "all_relevant_chunks": ["chunk_llm_001"],
+    "difficulty": "easy",
+    "expected_tier": "TIER_1"
+  },
+  {
+    "query": "How is context recall different from context precision?",
+    "ground_truth_answer": "Context precision measures what fraction of retrieved chunks are relevant. Context recall measures what fraction of all relevant chunks were retrieved. Both together assess retrieval completeness and accuracy.",
+    "ground_truth_context": ["chunk_eval_005"],
+    "all_relevant_chunks": ["chunk_eval_005", "chunk_eval_006"],
+    "difficulty": "medium",
+    "expected_tier": "TIER_1"
+  },
+  {
+    "query": "What file formats can the ingestion pipeline parse?",
+    "ground_truth_answer": "The ingestion pipeline supports PDF via PyMuPDF, DOCX via python-docx, XLSX via openpyxl, images via pytesseract OCR, and web pages via trafilatura. Plain text and markdown are also supported.",
+    "ground_truth_context": ["chunk_parser_001"],
+    "all_relevant_chunks": ["chunk_parser_001", "chunk_parser_002"],
+    "difficulty": "easy",
+    "expected_tier": "TIER_1"
+  },
+  {
+    "query": "Why is ChromaDB chosen over Milvus for vector storage?",
+    "ground_truth_answer": "ChromaDB is SQLite-backed and requires no external server, making it lightweight enough for the 4GB RAM budget on Mac M2. Milvus is too heavy for this hardware constraint.",
+    "ground_truth_context": ["chunk_db_001"],
+    "all_relevant_chunks": ["chunk_db_001"],
+    "difficulty": "easy",
+    "expected_tier": "TIER_1"
+  },
+  {
+    "query": "How does the query transformer improve retrieval?",
+    "ground_truth_answer": "The query transformer uses gemma3:1b to fix grammar, expand acronyms, and decompose multi-part questions into sub-queries. Each sub-query is then searched independently and results are merged.",
+    "ground_truth_context": ["chunk_qt_001", "chunk_qt_002"],
+    "all_relevant_chunks": ["chunk_qt_001", "chunk_qt_002"],
+    "difficulty": "medium",
+    "expected_tier": "TIER_2"
+  },
+  {
+    "query": "What is the keep_alive parameter used for in Ollama calls?",
+    "ground_truth_answer": "keep_alive=0 tells Ollama to unload the model from memory immediately after the inference call. keep_alive=-1 keeps the model resident. NexusRAG uses keep_alive=0 to free RAM after each call.",
+    "ground_truth_context": ["chunk_ollama_001"],
+    "all_relevant_chunks": ["chunk_ollama_001"],
+    "difficulty": "medium",
+    "expected_tier": "TIER_1"
+  },
+  {
+    "query": "How does the TIER_3 GraphRAG retrieve information?",
+    "ground_truth_answer": "TIER_3 first extracts entity tokens from the query and traverses the Neo4j graph to find related chunks via MENTIONS relationships. These graph-discovered chunk IDs are then fetched from ChromaDB, combined with hybrid search results.",
+    "ground_truth_context": ["chunk_graph_001", "chunk_graph_002"],
+    "all_relevant_chunks": ["chunk_graph_001", "chunk_graph_002", "chunk_graph_003"],
+    "difficulty": "hard",
+    "expected_tier": "TIER_3"
+  },
+  {
+    "query": "What CI/CD quality gates are enforced on pull requests?",
+    "ground_truth_answer": "PRs must pass: ruff linting, mypy type checking, pytest unit tests with mocked Ollama, and deterministic evaluation gates requiring context_precision >= 0.6, context_recall >= 0.6, and latency_p95 < 5000ms.",
+    "ground_truth_context": ["chunk_ci_001"],
+    "all_relevant_chunks": ["chunk_ci_001", "chunk_ci_002"],
+    "difficulty": "medium",
+    "expected_tier": "TIER_2"
+  },
+  {
+    "query": "How does rate limiting work in the API?",
+    "ground_truth_answer": "Rate limiting uses an in-process sliding window counter. Each IP is tracked in a dictionary with request timestamps. If an IP exceeds 10 requests per 60 seconds on the /query endpoint, a 429 response is returned.",
+    "ground_truth_context": ["chunk_api_001"],
+    "all_relevant_chunks": ["chunk_api_001"],
+    "difficulty": "medium",
+    "expected_tier": "TIER_1"
+  },
+  {
+    "query": "What is the MRR metric and what does it measure?",
+    "ground_truth_answer": "Mean Reciprocal Rank measures the rank of the first relevant retrieved document. It equals 1/rank where rank is the position of the first relevant result. A score of 1.0 means the first result is always relevant.",
+    "ground_truth_context": ["chunk_eval_007"],
+    "all_relevant_chunks": ["chunk_eval_007"],
+    "difficulty": "easy",
+    "expected_tier": "TIER_1"
+  },
+  {
+    "query": "How does the context compressor decide what to trim?",
+    "ground_truth_answer": "The context compressor checks if total context characters exceed the budget of 3000 characters. For oversized chunks, it uses gemma3:1b to filter sentences, keeping only those directly relevant to the query.",
+    "ground_truth_context": ["chunk_compress_001"],
+    "all_relevant_chunks": ["chunk_compress_001"],
+    "difficulty": "medium",
+    "expected_tier": "TIER_1"
+  },
+  {
+    "query": "What spaCy model is used for named entity recognition?",
+    "ground_truth_answer": "en_core_web_sm is used as the primary NER model. It extracts PERSON, ORG, GPE, PRODUCT and other entity types. If unavailable, qwen:1.8b is used as a fallback for domain-specific entity extraction.",
+    "ground_truth_context": ["chunk_ner_001"],
+    "all_relevant_chunks": ["chunk_ner_001"],
+    "difficulty": "easy",
+    "expected_tier": "TIER_1"
+  },
+  {
+    "query": "How does the formatter agent compute confidence scores?",
+    "ground_truth_answer": "Confidence is computed as a 50/50 blend of the mean retrieval score from hybrid search and the faithfulness score from the critic agent. The result is rounded to 3 decimal places.",
+    "ground_truth_context": ["chunk_formatter_001"],
+    "all_relevant_chunks": ["chunk_formatter_001"],
+    "difficulty": "medium",
+    "expected_tier": "TIER_1"
+  },
+  {
+    "query": "What is the purpose of the sentence overlap in chunking?",
+    "ground_truth_answer": "Sentence overlap preserves context across chunk boundaries. When a new chunk starts, the last 2 sentences of the previous chunk are included. This prevents information loss at boundaries.",
+    "ground_truth_context": ["chunk_chunk_overlap_001"],
+    "all_relevant_chunks": ["chunk_chunk_overlap_001"],
+    "difficulty": "easy",
+    "expected_tier": "TIER_1"
+  },
+  {
+    "query": "How do the three LLM evaluation prompts differ from each other?",
+    "ground_truth_answer": "The faithfulness prompt checks if answer claims are supported by context. The relevancy prompt scores how well the answer addresses the question. The completeness prompt checks if all question aspects are covered.",
+    "ground_truth_context": ["chunk_judge_001", "chunk_judge_002"],
+    "all_relevant_chunks": ["chunk_judge_001", "chunk_judge_002"],
+    "difficulty": "medium",
+    "expected_tier": "TIER_2"
+  },
+  {
+    "query": "Why is phi3:mini chosen as the generation model?",
+    "ground_truth_answer": "phi3:mini at 2.2GB provides good generation quality while fitting within the RAM budget. It is loaded and unloaded immediately after each generation call. qwen:1.8b serves as fallback if phi3:mini fails.",
+    "ground_truth_context": ["chunk_gen_001"],
+    "all_relevant_chunks": ["chunk_gen_001"],
+    "difficulty": "easy",
+    "expected_tier": "TIER_1"
+  },
+  {
+    "query": "What is the structure of a trace record in NexusRAG?",
+    "ground_truth_answer": "Each trace record contains: trace_id, query, start_ms, end_ms, total_duration_ms, spans list with per-span timestamps and metadata, status, and request metadata. Traces are saved as JSONL lines.",
+    "ground_truth_context": ["chunk_trace_001"],
+    "all_relevant_chunks": ["chunk_trace_001"],
+    "difficulty": "medium",
+    "expected_tier": "TIER_1"
+  },
+  {
+    "query": "How does the ingestion pipeline handle images with text?",
+    "ground_truth_answer": "Images are processed using pytesseract OCR via the Pillow library. The extracted text is stored with metadata including the OCR flag and original image dimensions.",
+    "ground_truth_context": ["chunk_ocr_001"],
+    "all_relevant_chunks": ["chunk_ocr_001"],
+    "difficulty": "easy",
+    "expected_tier": "TIER_1"
+  },
+  {
+    "query": "What entropy threshold is used to detect suspicious queries?",
+    "ground_truth_answer": "Queries with Shannon entropy above 5.5 and length over 100 characters trigger an ENTROPY:HIGH compliance violation. This catches base64-encoded payloads or injection attempts.",
+    "ground_truth_context": ["chunk_comp_002"],
+    "all_relevant_chunks": ["chunk_comp_002"],
+    "difficulty": "medium",
+    "expected_tier": "TIER_1"
+  },
+  {
+    "query": "How does the A/B testing framework compare two configurations?",
+    "ground_truth_answer": "The A/B tester runs the same query set through both configurations and compares mean confidence scores and latencies. The variant with higher mean confidence is declared the winner.",
+    "ground_truth_context": ["chunk_ab_001"],
+    "all_relevant_chunks": ["chunk_ab_001"],
+    "difficulty": "medium",
+    "expected_tier": "TIER_2"
+  },
+  {
+    "query": "Describe the relationship between entity extraction, Neo4j, and TIER_3 routing.",
+    "ground_truth_answer": "During ingestion, spaCy extracts entities from chunks and stores them as Entity nodes in Neo4j with MENTIONS edges to Chunk nodes. At query time, TIER_3 queries (complexity >= 0.7) use these relationships for multi-hop graph traversal to find semantically connected chunks.",
+    "ground_truth_context": ["chunk_graph_001", "chunk_ner_001", "chunk_tier_003"],
+    "all_relevant_chunks": ["chunk_graph_001", "chunk_ner_001", "chunk_tier_003", "chunk_graph_004"],
+    "difficulty": "hard",
+    "expected_tier": "TIER_3"
+  },
+  {
+    "query": "What Docker services are required to run NexusRAG?",
+    "ground_truth_answer": "The docker-compose file runs Neo4j and ChromaDB only. Ollama runs natively on Mac for Metal acceleration. Redis is replaced by diskcache. Milvus is excluded as too heavy for M2.",
+    "ground_truth_context": ["chunk_docker_001"],
+    "all_relevant_chunks": ["chunk_docker_001"],
+    "difficulty": "easy",
+    "expected_tier": "TIER_1"
+  },
+  {
+    "query": "How does the benchmark runner compute aggregate metrics across test cases?",
+    "ground_truth_answer": "The runner averages context_precision and context_recall from deterministic metrics, and faithfulness/relevancy/completeness from the LLM judge across all test cases. Latency p50/p95/p99 are computed from the full distribution.",
+    "ground_truth_context": ["chunk_bench_001", "chunk_bench_002"],
+    "all_relevant_chunks": ["chunk_bench_001", "chunk_bench_002"],
+    "difficulty": "medium",
+    "expected_tier": "TIER_2"
+  },
+  {
+    "query": "What is the difference between the pre-check and post-check compliance passes?",
+    "ground_truth_answer": "The pre-check runs on the query only before any retrieval or generation. The post-check runs on both query and generated answer after the critic pass. This catches PII that might appear in generated responses.",
+    "ground_truth_context": ["chunk_compliance_003"],
+    "all_relevant_chunks": ["chunk_compliance_003"],
+    "difficulty": "medium",
+    "expected_tier": "TIER_2"
+  },
+  {
+    "query": "How are XLSX spreadsheets converted to text for embedding?",
+    "ground_truth_answer": "XLSX files are read with openpyxl. Each sheet is converted to a markdown table with headers. Sheet names become H2 headers. Cells are stringified with None values as empty strings.",
+    "ground_truth_context": ["chunk_xlsx_001"],
+    "all_relevant_chunks": ["chunk_xlsx_001"],
+    "difficulty": "easy",
+    "expected_tier": "TIER_1"
+  },
+  {
+    "query": "What is the maximum number of retrieval iterations in TIER_2?",
+    "ground_truth_answer": "TIER_2 allows a maximum of 2 retrieval iterations. Sub-questions from the query transformer are searched independently and merged. If scores are low, a fallback search on the original query is also performed.",
+    "ground_truth_context": ["chunk_tier_002"],
+    "all_relevant_chunks": ["chunk_tier_002"],
+    "difficulty": "easy",
+    "expected_tier": "TIER_1"
+  },
+  {
+    "query": "Compare the role of qwen:1.8b versus gemma3:1b in the pipeline.",
+    "ground_truth_answer": "gemma3:1b handles fast tasks: routing complexity scoring, query transformation, and context compression. qwen:1.8b handles quality-sensitive tasks: faithfulness evaluation, hallucination detection, and entity extraction fallback.",
+    "ground_truth_context": ["chunk_llm_001", "chunk_llm_002"],
+    "all_relevant_chunks": ["chunk_llm_001", "chunk_llm_002"],
+    "difficulty": "medium",
+    "expected_tier": "TIER_2"
+  },
+  {
+    "query": "How does inline citation injection work in the formatter?",
+    "ground_truth_answer": "The formatter builds a citation map from chunk_ids to citation numbers. If the generated answer lacks inline citations, it appends [1][2][3] to the first paragraph. Citations already present are preserved.",
+    "ground_truth_context": ["chunk_formatter_002"],
+    "all_relevant_chunks": ["chunk_formatter_002"],
+    "difficulty": "medium",
+    "expected_tier": "TIER_1"
+  },
+  {
+    "query": "What are the p95 latency targets for each tier?",
+    "ground_truth_answer": "TIER_1 targets under 500ms for 80% of traffic. TIER_2 targets under 1500ms for 15% of traffic. TIER_3 targets under 3000ms for 5% of traffic. The CI gate requires latency_p95 < 5000ms overall.",
+    "ground_truth_context": ["chunk_latency_001"],
+    "all_relevant_chunks": ["chunk_latency_001"],
+    "difficulty": "medium",
+    "expected_tier": "TIER_1"
+  },
+  {
+    "query": "How does trafilatura extract content from web pages?",
+    "ground_truth_answer": "trafilatura fetches the URL content and extracts the main article text while removing navigation, ads, and boilerplate. It supports formatting preservation for headers and paragraphs.",
+    "ground_truth_context": ["chunk_web_001"],
+    "all_relevant_chunks": ["chunk_web_001"],
+    "difficulty": "easy",
+    "expected_tier": "TIER_1"
+  }
+]

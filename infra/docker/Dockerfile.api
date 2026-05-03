@@ -1,0 +1,71 @@
+# Multi-stage build for NexusRAG API
+# Stage 1: builder — install dependencies
+FROM python:3.11-slim AS builder
+
+WORKDIR /build
+
+# System deps for PyMuPDF, pytesseract, spaCy
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    gcc \
+    g++ \
+    tesseract-ocr \
+    libglib2.0-0 \
+    libsm6 \
+    libxext6 \
+    libxrender-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+COPY requirements.txt .
+RUN pip install --no-cache-dir --prefix=/install -r requirements.txt
+
+# Download spaCy model
+RUN /install/bin/python -m spacy download en_core_web_sm || true
+
+# ─────────────────────────────────────────────────────────────────────────────────
+# Stage 2: runtime
+FROM python:3.11-slim AS runtime
+
+# Non-root user
+RUN groupadd -r nexus && useradd -r -g nexus -m -d /app nexus
+
+WORKDIR /app
+
+# Runtime system deps
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    tesseract-ocr \
+    libglib2.0-0 \
+    libsm6 \
+    libxext6 \
+    curl \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copy installed packages from builder
+COPY --from=builder /install /usr/local
+
+# Copy source code
+COPY --chown=nexus:nexus src/ src/
+COPY --chown=nexus:nexus data/ data/
+COPY --chown=nexus:nexus .env.example .env
+
+# Create required runtime directories
+RUN mkdir -p \
+    data/chroma data/raw data/processed data/benchmarks data/cache \
+    reports/traces reports/charts reports/eval_runs \
+    && chown -R nexus:nexus /app
+
+USER nexus
+
+ENV PYTHONUNBUFFERED=1 \
+    PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONPATH=/app
+
+EXPOSE 8000
+
+HEALTHCHECK --interval=30s --timeout=10s --start-period=30s --retries=3 \
+    CMD curl -f http://localhost:8000/health || exit 1
+
+CMD ["python", "-m", "uvicorn", "src.api.main:app", \
+     "--host", "0.0.0.0", \
+     "--port", "8000", \
+     "--workers", "1", \
+     "--log-level", "info"]
