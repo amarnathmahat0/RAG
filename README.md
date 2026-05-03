@@ -1,9 +1,16 @@
 # NexusRAG — Production-Grade Multi-Agent RAG System
 
-> A fully local, zero-cost Retrieval-Augmented Generation (RAG) system with adaptive routing, hybrid retrieval, and built-in evaluation.
-
----
-
+![Python](https://img.shields.io/badge/Python-3.11-blue)
+![LLM](https://img.shields.io/badge/LLM-Ollama-orange)
+![Models](https://img.shields.io/badge/Models-gemma3%20%7C%20phi3%20%7C%20qwen-purple)
+![Architecture](https://img.shields.io/badge/Architecture-Multi--Agent-green)
+![RAG](https://img.shields.io/badge/RAG-Hybrid%20%2B%20Graph-blueviolet)
+![VectorDB](https://img.shields.io/badge/VectorDB-ChromaDB-red)
+![GraphDB](https://img.shields.io/badge/GraphDB-Neo4j-brightgreen)
+![Evaluation](https://img.shields.io/badge/Evaluation-LLM%20Judge-yellow)
+![API](https://img.shields.io/badge/API-FastAPI-teal)
+![Cost](https://img.shields.io/badge/API%20Cost-₹0-success)
+![License](https://img.shields.io/badge/License-MIT-yellow)
 ## 🚀 Overview
 
 NexusRAG is a production-grade, multi-agent RAG system designed to deliver accurate, fast, and explainable responses — without relying on any paid APIs.
